@@ -1,0 +1,13 @@
+language: java
+jdk:
+  - oraclejdk8
+  - oraclejdk7
+  - openjdk7
+  - openjdk6
+script:
+  - make testSel
+  - make testRnd probe=0
+  - make testRnd probe=100
+  - make testRnd probe=200
+  - make testRnd probe=500
+  - make testRnd probe=1000
