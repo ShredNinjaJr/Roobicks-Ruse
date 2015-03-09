@@ -31,14 +31,20 @@ int main(array<System::String ^> ^args)
 		do
 		{
 			// ask on or off
-			Console::WriteLine("Type \"on\" to turn the light on or \"off\" to turn it off");
+			Console::WriteLine("Type command");
 			// get answer
 			answer=Console::ReadLine();
 			//check that user typed one of the options
-			if(String::Compare(answer,"on")==0)
-				arduino->WriteLine("1"); // send 1 to arduino
-			else if(String::Compare(answer,"off")==0)
-				arduino->WriteLine("0"); // send 0 to arduino
+			if(String::Compare(answer,"forward")==0)
+				arduino->WriteLine("0"); // send 1 to arduino
+			else if(String::Compare(answer,"backward")==0)
+				arduino->WriteLine("1"); // send 0 to arduino
+			else if (String::Compare(answer, "left") == 0)
+				arduino->WriteLine("2"); // send 0 to arduino
+			else if (String::Compare(answer, "right") == 0)
+				arduino->WriteLine("3"); // send 0 to arduino
+			else if (String::Compare(answer, "dance") == 0)
+				arduino->WriteLine("4"); // send 0 to arduino
 			else
 				Console::WriteLine(answer+" was not an option");
 			// ask user if he wants to continue
