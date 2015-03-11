@@ -91,6 +91,7 @@ public:
 	//   solution, found so far, is output during the search
 	void PrintSolution(void);
 	void PrintSolutionFile(void);
+	string arduinoParser(string inp);
 
 private:
 

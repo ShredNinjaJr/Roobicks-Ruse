@@ -405,11 +405,39 @@ void Solver::PrintSolutionFile(void)
 	myfile.open("exampleSolution.txt");
 	int i;
 	for (i = 0; i < solutionLength1; i++)
-		myfile << Cube::NameOfMove(TranslateMove(solutionMoves1[i], solutionPowers1[i], 0))
-		<< " ";
+	{	
+		string moveHere = Cube::NameOfMove(TranslateMove(solutionMoves1[i], solutionPowers1[i], 0));
+		myfile << arduinoParser(moveHere) << " ";
+	}
 	for (i = 0; i < solutionLength2; i++)
-		myfile << Cube::NameOfMove(TranslateMove(solutionMoves2[i], solutionPowers2[i], 1))
-		<< " ";
+	{
+		string moveHere = Cube::NameOfMove(TranslateMove(solutionMoves2[i], solutionPowers2[i], 1));
+		myfile << arduinoParser(moveHere) << " ";
+	}
+	exit(0);
+}
+
+string Solver::arduinoParser(string inp)
+{
+	if (inp == "U") return "0";
+	if (inp == "U'") return "1";
+	if (inp == "U2") return "2";
+	if (inp == "D") return "3";
+	if (inp == "D'") return "4";
+	if (inp == "D2") return "5";
+	if (inp == "F") return "6";
+	if (inp == "F'") return "7";
+	if (inp == "F2") return "8";
+	if (inp == "B") return "9";
+	if (inp == "B'") return "10";
+	if (inp == "B2") return "11";
+	if (inp == "L") return "12";
+	if (inp == "L'") return "13";
+	if (inp == "L2") return "14";
+	if (inp == "R") return "15";
+	if (inp == "R'") return "16";
+	if (inp == "R2") return "17";
+	return "-1";
 }
 
 int Solver::TranslateMove(int move, int power, int phase2)
