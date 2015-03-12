@@ -27,7 +27,5 @@ void loop() {
       default:
       break; 
     }
-    Serial.write("1 \n");
-  delay(500);
   }
 }

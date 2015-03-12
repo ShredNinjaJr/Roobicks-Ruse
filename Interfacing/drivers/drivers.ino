@@ -36,15 +36,13 @@ void loop()
     //store input
     operation = Serial.read(); 
     //perform corresponding operation
-    switch(operation)
+    switch(state)
     {
       case '0':
-        //left();
-        openn();
+        left();
         break;
       case '1':
-        //right();
-        closee();
+        right();
         break;
       case '2':
         up();
@@ -62,20 +60,7 @@ void loop()
         break; 
     }
   }
-  
-  Serial.write("1");
-  Serial.write("\n");
-  delay(500);
 }
-
-void openn()
-{
-  botPinch.write(90);
-}  
-void closee()
-{
-  botPinch.write(35); 
-} 
 
 //every open has a close, every cwise has a cCwise
 //this ensures we maintain our home position

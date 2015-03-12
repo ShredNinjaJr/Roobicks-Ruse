@@ -7,7 +7,8 @@
 #include <string>
 #include <cstdlib>
 #include <fstream>
-using namespace std;
+
+
 Solver::Solver(void)
 	// Phase 1 move mapping tables
 	: twistMoveTable(cube),
@@ -278,6 +279,7 @@ int Solver::Search2(
 			minSolutionLength = solutionLength1 + solutionLength2;
 		PrintSolution();
 		PrintSolutionFile();
+		toArduinoInterf();
 		return FOUND;
 	}
 
@@ -407,37 +409,81 @@ void Solver::PrintSolutionFile(void)
 	for (i = 0; i < solutionLength1; i++)
 	{	
 		string moveHere = Cube::NameOfMove(TranslateMove(solutionMoves1[i], solutionPowers1[i], 0));
-		myfile << arduinoParser(moveHere) << " ";
 	}
 	for (i = 0; i < solutionLength2; i++)
 	{
 		string moveHere = Cube::NameOfMove(TranslateMove(solutionMoves2[i], solutionPowers2[i], 1));
-		myfile << arduinoParser(moveHere) << " ";
 	}
 	exit(0);
 }
 
-string Solver::arduinoParser(string inp)
+String^ Solver::arduinoParser(string inp)
 {
-	if (inp == "U") return "0";
-	if (inp == "U'") return "1";
-	if (inp == "U2") return "2";
-	if (inp == "D") return "3";
-	if (inp == "D'") return "4";
-	if (inp == "D2") return "5";
-	if (inp == "F") return "6";
-	if (inp == "F'") return "7";
-	if (inp == "F2") return "8";
-	if (inp == "B") return "9";
-	if (inp == "B'") return "10";
-	if (inp == "B2") return "11";
-	if (inp == "L") return "12";
-	if (inp == "L'") return "13";
-	if (inp == "L2") return "14";
-	if (inp == "R") return "15";
-	if (inp == "R'") return "16";
-	if (inp == "R2") return "17";
-	return "-1";
+	String^ output;
+	if (inp == "U") output = "a";
+	if (inp == "U'") output = "b";
+	if (inp == "U2") output = "c";
+	if (inp == "D") output = "d";
+	if (inp == "D'") output = "e";
+	if (inp == "D2") output = "f";
+	if (inp == "F") output = "g";
+	if (inp == "F'") output = "h";
+	if (inp == "F2") output = "i";
+	if (inp == "B") output = "j";
+	if (inp == "B'") output = "k";
+	if (inp == "B2") output = "l";
+	if (inp == "L") output = "m";
+	if (inp == "L'") output = "n";
+	if (inp == "L2") output = "o";
+	if (inp == "R") output = "p";
+	if (inp == "R'") output = "q";
+	if (inp == "R2") output = "s";
+	return output;
+}
+
+void Solver::toArduinoInterf(void)
+{
+	string answer;
+	String^ portName;
+	int baudRate = 9600;
+	portName = "COM4";
+	// arduino settings
+	SerialPort^ arduino;
+	arduino = gcnew SerialPort(portName, baudRate);
+	// open port
+	try
+	{
+		arduino->Open();
+
+		int i;
+		for (i = 0; i < solutionLength1; i++)
+		{
+			// Get move
+			answer = Cube::NameOfMove(TranslateMove(solutionMoves1[i], solutionPowers1[i], 0));
+			// Parse to a,b,c,...r
+			arduino->WriteLine(arduinoParser(answer));
+			// Wait for arduino to return 1
+			while (arduino->ReadLine() != "1") {}
+		}
+		for (i = 0; i < solutionLength2; i++)
+		{
+			answer = Cube::NameOfMove(TranslateMove(solutionMoves2[i], solutionPowers2[i], 1));
+			arduino->WriteLine(arduinoParser(answer));
+			while (arduino->ReadLine() != "1") {}
+		}
+		// close port to arduino
+		arduino->Close();
+	}
+	catch (IO::IOException^ e)
+	{
+		Console::WriteLine(e->GetType()->Name + ": Port is not ready");
+	}
+	catch (ArgumentException^ e)
+	{
+		Console::WriteLine(e->GetType()->Name + ": incorrect port name syntax, must start with COM/com");
+	}
+	// end program
+	return;
 }
 
 int Solver::TranslateMove(int move, int power, int phase2)

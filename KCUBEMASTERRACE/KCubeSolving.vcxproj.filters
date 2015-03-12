@@ -77,5 +77,8 @@
     <ClInclude Include="cubepars.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\Interfacing\StdAfx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
