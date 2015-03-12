@@ -66,6 +66,10 @@
 #include "kocimovt.h"	// Kociemba's move mapping tables
 #include "pruningt.h"	// PruningTable
 
+using namespace System;
+using namespace System::IO::Ports;
+using namespace std;
+
 class Solver
 {
 public:
@@ -91,7 +95,8 @@ public:
 	//   solution, found so far, is output during the search
 	void PrintSolution(void);
 	void PrintSolutionFile(void);
-	string arduinoParser(string inp);
+	System::String^ arduinoParser(string inp);
+	void toArduinoInterf(void);
 
 private:
 

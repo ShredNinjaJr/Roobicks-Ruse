@@ -1,15 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Roobick's Ruse", "Roobick's Ruse\Roobick's Ruse.vcxproj", "{E3F60680-2E4E-4AE2-8E5C-8550DC360EEB}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Image Detection", "Image Detection\Image Detection.vcxproj", "{FBC25A3D-516C-4447-BB3E-B85E91E86114}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cube Solving", "Cube Solving\Cube Solving.vcxproj", "{F38C52E4-E50D-4AB0-8BD8-A4B0F4867B68}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Interfacing", "Interfacing\Interfacing.vcxproj", "{3149A664-1936-4FFC-8FC0-811E19EAA6B5}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KCubeSolving", "KCUBEMASTERRACE\KCubeSolving.vcxproj", "{24008633-6F15-4D49-9ABC-2BB4CE2F7280}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,22 +13,14 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E3F60680-2E4E-4AE2-8E5C-8550DC360EEB}.Debug|Win32.ActiveCfg = Debug|Win32
-		{E3F60680-2E4E-4AE2-8E5C-8550DC360EEB}.Debug|Win32.Build.0 = Debug|Win32
-		{E3F60680-2E4E-4AE2-8E5C-8550DC360EEB}.Release|Win32.ActiveCfg = Release|Win32
-		{E3F60680-2E4E-4AE2-8E5C-8550DC360EEB}.Release|Win32.Build.0 = Release|Win32
-		{FBC25A3D-516C-4447-BB3E-B85E91E86114}.Debug|Win32.ActiveCfg = Debug|Win32
-		{FBC25A3D-516C-4447-BB3E-B85E91E86114}.Debug|Win32.Build.0 = Debug|Win32
-		{FBC25A3D-516C-4447-BB3E-B85E91E86114}.Release|Win32.ActiveCfg = Release|Win32
-		{FBC25A3D-516C-4447-BB3E-B85E91E86114}.Release|Win32.Build.0 = Release|Win32
-		{F38C52E4-E50D-4AB0-8BD8-A4B0F4867B68}.Debug|Win32.ActiveCfg = Debug|Win32
-		{F38C52E4-E50D-4AB0-8BD8-A4B0F4867B68}.Debug|Win32.Build.0 = Debug|Win32
-		{F38C52E4-E50D-4AB0-8BD8-A4B0F4867B68}.Release|Win32.ActiveCfg = Release|Win32
-		{F38C52E4-E50D-4AB0-8BD8-A4B0F4867B68}.Release|Win32.Build.0 = Release|Win32
 		{3149A664-1936-4FFC-8FC0-811E19EAA6B5}.Debug|Win32.ActiveCfg = Debug|Win32
 		{3149A664-1936-4FFC-8FC0-811E19EAA6B5}.Debug|Win32.Build.0 = Debug|Win32
 		{3149A664-1936-4FFC-8FC0-811E19EAA6B5}.Release|Win32.ActiveCfg = Release|Win32
 		{3149A664-1936-4FFC-8FC0-811E19EAA6B5}.Release|Win32.Build.0 = Release|Win32
+		{24008633-6F15-4D49-9ABC-2BB4CE2F7280}.Debug|Win32.ActiveCfg = Debug|Win32
+		{24008633-6F15-4D49-9ABC-2BB4CE2F7280}.Debug|Win32.Build.0 = Debug|Win32
+		{24008633-6F15-4D49-9ABC-2BB4CE2F7280}.Release|Win32.ActiveCfg = Release|Win32
+		{24008633-6F15-4D49-9ABC-2BB4CE2F7280}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
