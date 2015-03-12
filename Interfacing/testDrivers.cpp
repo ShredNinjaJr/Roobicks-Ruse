@@ -23,21 +23,26 @@ int main(array<System::String ^> ^args)
 		{
 			// ask on or off
 			//Console::WriteLine("Type \"L\" \"R\" \"U\" \"D\" \"F\" or \"B\" to test the operation");
-			Console::WriteLine("Type \"open\" or \"close\" to test the operation");
+			Console::WriteLine("Type L L' R or R' to test the operation");
 			// get answer
 			answer = Console::ReadLine();
 
-			if (String::Compare(answer, "open") == 0)
+			/*if (String::Compare(answer, "open") == 0)
 				arduino->WriteLine("0"); // send 0 to arduino
 			else if (String::Compare(answer, "close") == 0)
-				arduino->WriteLine("1"); // send 1 to arduino
+				arduino->WriteLine("1"); // send 1 to arduino*/
 
 			//check that user typed one of the options
-			/*if (String::Compare(answer, "L") == 0)
+			if (String::Compare(answer, "L") == 0)
 				arduino->WriteLine("0"); // send 0 to arduino
 			else if (String::Compare(answer, "R") == 0)
-				arduino->WriteLine("1"); // send 1 to arduino
-			else if (String::Compare(answer, "U") == 0)
+				arduino->WriteLine("2"); // send 1 to arduino
+			else if (String::Compare(answer, "L'") == 0)
+					arduino->WriteLine("1"); // send 0 to arduino
+			else if (String::Compare(answer, "R'") == 0)
+				arduino->WriteLine("3"); // send 0 to arduino
+				
+			/*else if (String::Compare(answer, "U") == 0)
 				arduino->WriteLine("2"); // send 2 to arduino
 			else if (String::Compare(answer, "D") == 0)
 				arduino->WriteLine("3"); // send 3 to arduino
