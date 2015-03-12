@@ -23,7 +23,7 @@ int main(array<System::String ^> ^args)
 		{
 			// ask on or off
 			//Console::WriteLine("Type \"L\" \"R\" \"U\" \"D\" \"F\" or \"B\" to test the operation");
-			Console::WriteLine("Type L L' R or R' to test the operation");
+			Console::WriteLine("Type L L' or L2 to test the operation");
 			// get answer
 			answer = Console::ReadLine();
 
@@ -34,13 +34,11 @@ int main(array<System::String ^> ^args)
 
 			//check that user typed one of the options
 			if (String::Compare(answer, "L") == 0)
-				arduino->WriteLine("0"); // send 0 to arduino
-			else if (String::Compare(answer, "R") == 0)
-				arduino->WriteLine("2"); // send 1 to arduino
+				arduino->WriteLine("m"); // send 0 to arduino
 			else if (String::Compare(answer, "L'") == 0)
-					arduino->WriteLine("1"); // send 0 to arduino
-			else if (String::Compare(answer, "R'") == 0)
-				arduino->WriteLine("3"); // send 0 to arduino
+				arduino->WriteLine("n"); // send 1 to arduino
+			else if (String::Compare(answer, "L2") == 0)
+					arduino->WriteLine("o"); // send 0 to arduino
 				
 			/*else if (String::Compare(answer, "U") == 0)
 				arduino->WriteLine("2"); // send 2 to arduino

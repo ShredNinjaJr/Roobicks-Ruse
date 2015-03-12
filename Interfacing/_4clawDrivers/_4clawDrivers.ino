@@ -37,7 +37,7 @@ int twistHome = 90;
 
 int wait = 1000;
 
-int operation = -1; //variable to store serial input
+char operation; //variable to store serial input
 
 //attach servos to PWM pins and setup serial in
 void setup()
@@ -52,8 +52,9 @@ void setup()
   rightPinch.attach(rightPinchPin);
   rightTwist.attach(rightTwistPin);
   
-  initialize();
-  showCube();
+  //frontTwist.write(0);
+  //initialize();
+  //showCube();
 }
 
 void loop()
@@ -63,85 +64,84 @@ void loop()
   {
     //store input
     operation = Serial.read(); 
-    Serial.println(operation);
     //perform corresponding operation
     switch(operation)
     {
       //U
-      case 0:
+      case 'a':
         up();
         break;
       //U'  
-      case 1:
+      case 'b':
         upPrime();
         break;
       //U2  
-      case 2:
+      case 'c':
         up();
         up();
         break;
       //D  
-      case 3:
+      case 'd':
         down();
         break; 
       //D'  
-      case 4:
+      case 'e':
         downPrime();
         break;
       //D2  
-      case 5:
+      case 'f':
         down();
         down();
         break;
       //F 
-      case 6:
+      case 'g':
         front();
         break;
       //F'  
-      case 7:
+      case 'h':
         frontPrime();
         break;
       //F2  
-      case 8:
+      case 'i':
         front();
         front();
         break;
       //B  
-      case 9:
+      case 'j':
         back();
         break;
       //B'  
-      case 10:
+      case 'k':
         backPrime();
         break; 
       //B2  
-      case 11:
+      case 'l':
         back();
         back();
         break; 
       //L
-      case 12:
+      case 'm':
         left();
         break;
       //L'
-      case 13:
+      case 'n':
         leftPrime();
         break;
       //L2
-      case 14:
+      case 'o':
         left();
         left();
         break;
       //R
-      case 15:
+      case 'p':
         right();
         break;
       //R'
-      case 16:
+      case 'q':
         rightPrime();
         break;
       //R2
-      case 17:
+      case 'r':
         right();
         right();
         break;  
@@ -150,8 +150,8 @@ void loop()
     }
   }
   //ready for next operation
-  Serial.write("1 \n");
-  delay(500);
+  //Serial.write("1 \n");
+ // delay(500);
 }
 
 void initialize()
