@@ -1,7 +1,8 @@
 #include <Servo.h>
 
-#define WAIT 500
+#define WAIT 1500
 #define INITWAIT 10000
+#define SCANDELAY 1000
 Servo frontPinch;
 Servo frontTwist;
 Servo backPinch;
@@ -21,19 +22,34 @@ int rightTwistPin = 9;
 //assign angles for operations (TBD)
 //black
 int leftOpen = 50;
+int leftOpenMotionBig = 70;
+int leftOpenMotionSmall = 82;
+int leftOpenStationary = 50;
 int leftClose = 130;
-//green
-int rightOpen = 80;
-int rightClose = 160;
+
+int rightOpenStationary = 50;
+int rightOpenMotion = 100;
+int rightOpen = 50;
+int rightClose = 150;
+
 int frontOpen;
-int frontClose;
+int frontOpenStationary = 50;
+int frontOpenMotion = 82;
+int frontClose = 150;
+
 int backOpen;
+int backOpenStationary = 50;
+int backOpenMotion = 90;
 int backClose;
 
+//50 deg turns
+int cwisePart = 140;
+int cCwisePart = 40;
 //90 deg turns
 int cwise = 180;
 int cCwise = 0;
 int twistHome = 90;
+int rightTwistHome = 96;
 
 int wait = 1000;
 
@@ -51,14 +67,45 @@ void setup()
   leftTwist.attach(leftTwistPin);
   rightPinch.attach(rightPinchPin);
   rightTwist.attach(rightTwistPin);
+  rightTwist.write(rightTwistHome);
+  delay(WAIT);
+  //rightPinch.write(rightOpenMotion);
+  leftTwist.write(twistHome);
+  delay(WAIT);
+  leftPinch.write(leftClose);
+  rightPinch.write(rightClose);
+  frontPinch.write(frontClose);
+  delay(WAIT);
+  left();
+  /*frontTwist.write(90);
+  backTwist.write(90);*/
+ /* leftTwist.write(twistHome);
+  rightTwist.write(rightTwistHome);
+  delay(WAIT);
+  leftPinch.write(leftClose);
+  rightPinch.write(rightClose);*/
+  //frontPinch.write(leftClose);
+ // backPinch.write(130);
+  //top2front();
   
-  //frontTwist.write(0);
   //initialize();
   //showCube();
 }
 
 void loop()
 { 
+  /*if (Serial.available() > 0)
+  {
+    leftPinch.write(leftOpen);
+    rightPinch.write(rightOpen);
+  }*/
+  /*top2front();
+leftPinch.write(leftOpen);
+rightPinch.write(rightOpen);;
+delay(7000);
+leftPinch.write(leftClose);
+  rightPinch.write(leftClose);
+  
   //once there is input..
   if (Serial.available() > 0)
   {
@@ -151,7 +198,7 @@ void loop()
   }
   //ready for next operation
   //Serial.write("1 \n");
- // delay(500);
+ // delay(500);*/
 }
 
 void initialize()
@@ -189,7 +236,11 @@ void left()
 {
   leftTwist.write(cwise);
   delay(WAIT);
-  leftPinch.write(leftOpen);
+  leftPinch.write(leftOpenMotionSmall);
+  delay(WAIT);
+  leftTwist.write(cwisePart);
+  delay(WAIT);
+  leftPinch.write(leftOpenMotionBig);
   delay(WAIT);
   leftTwist.write(twistHome);
   delay(WAIT);
@@ -320,12 +371,12 @@ void top2front()
   leftPinch.write(leftOpen);
   rightPinch.write(rightOpen);
   delay(WAIT);
-  leftTwist.write(cCwise);
-  rightTwist.write(cwise);
+  leftTwist.write(twistHome);
+  rightTwist.write(twistHome+4);
   delay(WAIT);
   leftPinch.write(leftClose);
   rightPinch.write(rightClose);
-  delay(WAIT);
+  delay(WAIT*2);
 }  
 //front and back claws open, left and right turn
 //the cube so the bot is now in the front
