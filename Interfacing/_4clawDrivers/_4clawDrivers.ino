@@ -1,7 +1,7 @@
 #include <Servo.h>
 
 #define WAIT 1500
-#define INITWAIT 10000
+#define INITWAIT 5000
 #define SCANDELAY 1000
 Servo frontPinch;
 Servo frontTwist;
@@ -11,47 +11,62 @@ Servo leftPinch;
 Servo leftTwist;
 Servo rightPinch;
 Servo rightTwist;
-int frontPinchPin = 2;
-int frontTwistPin = 3;
+int frontPinchPin = 10;
+int frontTwistPin = 11;
 int backPinchPin = 4;
 int backTwistPin = 5;
 int leftPinchPin = 6;
 int leftTwistPin = 7;
 int rightPinchPin = 8;
 int rightTwistPin = 9;
+
 //assign angles for operations (TBD)
 //black
-int leftOpen = 50;
 int leftOpenMotionBig = 70;
 int leftOpenMotionSmall = 82;
 int leftOpenStationary = 50;
-int leftClose = 130;
+int leftClose = 120;
+
+int leftTwistHome = 88;
+int leftcCwise = 180;
+int leftcwise = 10;
+int leftcwisePart = 140;
+int leftcCwisePart = 40;
+
 
 int rightOpenStationary = 50;
-int rightOpenMotion = 100;
-int rightOpen = 50;
-int rightClose = 150;
+int rightOpenMotionBig = 80;
+int rightOpenMotionSmall = 110;
+int rightClose = 140;
 
-int frontOpen;
+int rightcwisePart = 37;
+int rightcCwisePart = 135;
+int rightTwistHome = 88;
+int rightcCwise = 172;
+int rightcwise = 0;
+
+
 int frontOpenStationary = 50;
-int frontOpenMotion = 82;
-int frontClose = 150;
+int frontOpenMotionBig = 70;
+int frontOpenMotionSmall = 93;
+int frontClose = 140;
 
-int backOpen;
+int frontcCwise = 180;
+int frontcwise = 9;
+int frontcwisePart = 45;
+int frontcCwisePart = 150;
+int frontTwistHome = 90;
+
 int backOpenStationary = 50;
-int backOpenMotion = 90;
-int backClose;
+int backOpenMotionBig = 75;
+int backOpenMotionSmall = 90;
+int backClose = 130;
 
-//50 deg turns
-int cwisePart = 140;
-int cCwisePart = 40;
-//90 deg turns
-int cwise = 180;
-int cCwise = 0;
-int twistHome = 90;
-int rightTwistHome = 96;
-
-int wait = 1000;
+int backcCwise = 171;
+int backcwise = 8;
+int backcwisePart = 37;
+int backcCwisePart = 135;
+int backTwistHome = 91;
 
 char operation; //variable to store serial input
 
@@ -67,38 +82,36 @@ void setup()
   leftTwist.attach(leftTwistPin);
   rightPinch.attach(rightPinchPin);
   rightTwist.attach(rightTwistPin);
-  rightTwist.write(rightTwistHome);
-  delay(WAIT);
-  //rightPinch.write(rightOpenMotion);
-  leftTwist.write(twistHome);
-  delay(WAIT);
-  leftPinch.write(leftClose);
-  rightPinch.write(rightClose);
-  frontPinch.write(frontClose);
-  delay(WAIT);
-  left();
-  /*frontTwist.write(90);
-  backTwist.write(90);*/
- /* leftTwist.write(twistHome);
-  rightTwist.write(rightTwistHome);
-  delay(WAIT);
-  leftPinch.write(leftClose);
-  rightPinch.write(rightClose);*/
-  //frontPinch.write(leftClose);
- // backPinch.write(130);
-  //top2front();
   
-  //initialize();
-  //showCube();
+  rightTwist.write(rightTwistHome);
+  leftTwist.write(leftTwistHome);
+  frontTwist.write(frontTwistHome);
+  backTwist.write(backTwistHome);
+  delay(WAIT);
+  rightPinch.write(rightOpenStationary);
+  leftPinch.write(leftOpenStationary);
+  frontPinch.write(frontOpenStationary);
+  backPinch.write(backOpenStationary);
+  delay(WAIT*3);
+  
+    rightPinch.write(rightClose);
+    leftPinch.write(leftClose);
+    frontPinch.write(frontClose);
+    backPinch.write(backClose);
+    
+    delay(INITWAIT);
+    frontPrime();
 }
 
 void loop()
-{ 
-  /*if (Serial.available() > 0)
-  {
-    leftPinch.write(leftOpen);
-    rightPinch.write(rightOpen);
-  }*/
+{ /*
+    rightPinch.write(rightClose);
+    leftPinch.write(leftClose);
+    frontPinch.write(frontClose);
+    backPinch.write(backClose);
+    
+    delay(WAIT);
+      left();*/
   /*top2front();
 leftPinch.write(leftOpen);
 rightPinch.write(rightOpen);;
@@ -204,24 +217,24 @@ leftPinch.write(leftClose);
 void initialize()
 {
   //position to hold cube
- leftTwist.write(twistHome); 
- rightTwist.write(twistHome); 
- frontTwist.write(twistHome); 
- backTwist.write(twistHome); 
+ leftTwist.write(leftTwistHome); 
+ rightTwist.write(rightTwistHome); 
+ frontTwist.write(frontTwistHome); 
+ backTwist.write(backTwistHome); 
  delay(WAIT);
  //open all and wait 10s for us
- leftPinch.write(leftOpen);
- rightPinch.write(rightOpen);
- frontPinch.write(frontOpen);
- backPinch.write(backOpen);
+ leftPinch.write(leftOpenStationary);
+ rightPinch.write(rightOpenStationary);
+ frontPinch.write(frontOpenStationary);
+ backPinch.write(backOpenStationary);
  delay(INITWAIT);
  //close slowly so we can line it up
  for(int i = 1; i < 81; i+=10)
  {
-   leftPinch.write(leftOpen - i);
-   rightPinch.write(rightOpen - i);
-   frontPinch.write(frontOpen - i);
-   backPinch.write(backOpen - i);
+   leftPinch.write(leftOpenStationary - i);
+   rightPinch.write(rightOpenStationary - i);
+   frontPinch.write(frontOpenStationary - i);
+   backPinch.write(backOpenStationary - i);
    delay(WAIT);
  }  
  delay(WAIT);
@@ -234,15 +247,15 @@ void showCube()
 //twist clockwise, open, twist back
 void left()
 {
-  leftTwist.write(cwise);
+  leftTwist.write(leftcwise);
   delay(WAIT);
   leftPinch.write(leftOpenMotionSmall);
   delay(WAIT);
-  leftTwist.write(cwisePart);
+  leftTwist.write(leftcwisePart);
   delay(WAIT);
   leftPinch.write(leftOpenMotionBig);
   delay(WAIT);
-  leftTwist.write(twistHome);
+  leftTwist.write(leftTwistHome);
   delay(WAIT);
   leftPinch.write(leftClose);
   delay(WAIT);
@@ -250,33 +263,45 @@ void left()
 //twist counter clockwise, open, twist back
 void leftPrime()
 {
-  leftTwist.write(cCwise);
+  leftTwist.write(leftcCwise);
   delay(WAIT);
-  leftPinch.write(leftOpen);
+  leftPinch.write(leftOpenMotionSmall);
   delay(WAIT);
-  leftTwist.write(twistHome);
+  leftTwist.write(leftcCwisePart);
+  delay(WAIT);
+  leftPinch.write(leftOpenMotionBig);
+  delay(WAIT);
+  leftTwist.write(leftTwistHome);
   delay(WAIT);
   leftPinch.write(leftClose);
   delay(WAIT);
 } 
-void right()
+void rightPrime()
 {
-  rightTwist.write(cwise);
+  rightTwist.write(rightcCwise);
   delay(WAIT);
-  rightPinch.write(rightOpen);
+  rightPinch.write(rightOpenMotionSmall);
   delay(WAIT);
-  rightTwist.write(twistHome);
+  rightTwist.write(rightcCwisePart);
+  delay(WAIT);
+  rightPinch.write(rightOpenMotionBig);
+  delay(WAIT);
+  rightTwist.write(rightTwistHome);
   delay(WAIT);
   rightPinch.write(rightClose);
   delay(WAIT);
 } 
-void rightPrime()
+void right()
 {
-  rightTwist.write(cCwise);
+  rightTwist.write(rightcwise);
   delay(WAIT);
-  rightPinch.write(rightOpen);
+  rightPinch.write(rightOpenMotionSmall);
   delay(WAIT);
-  rightTwist.write(twistHome);
+  rightTwist.write(rightcwisePart);
+  delay(WAIT);
+  rightPinch.write(rightOpenMotionBig);
+  delay(WAIT);
+  rightTwist.write(rightTwistHome);
   delay(WAIT);
   rightPinch.write(rightClose);
   delay(WAIT);
@@ -313,44 +338,60 @@ void downPrime()
 }  
 void front()
 {
-  frontTwist.write(cwise);
+  frontTwist.write(frontcwise);
   delay(WAIT);
-  frontPinch.write(leftOpen);
+  frontPinch.write(frontOpenMotionSmall);
   delay(WAIT);
-  frontTwist.write(twistHome);
+  frontTwist.write(frontcwisePart);
   delay(WAIT);
-  frontPinch.write(leftClose);
+  frontPinch.write(frontOpenMotionBig);
+  delay(WAIT);
+  frontTwist.write(frontTwistHome);
+  delay(WAIT);
+  frontPinch.write(frontClose);
   delay(WAIT);
 } 
 void frontPrime()
 {
-  frontTwist.write(cCwise);
+  frontTwist.write(frontcCwise);
   delay(WAIT);
-  frontPinch.write(frontOpen);
+  frontPinch.write(frontOpenMotionSmall);
   delay(WAIT);
-  frontTwist.write(twistHome);
+  frontTwist.write(frontcCwisePart);
+  delay(WAIT);
+  frontPinch.write(frontOpenMotionBig);
+  delay(WAIT);
+  frontTwist.write(frontTwistHome);
   delay(WAIT);
   frontPinch.write(frontClose);
   delay(WAIT);
 } 
 void back()
 {
-  backTwist.write(cwise);
+  backTwist.write(backcwise);
   delay(WAIT);
-  backPinch.write(backOpen);
+  backPinch.write(backOpenMotionSmall);
   delay(WAIT);
-  backTwist.write(twistHome);
+  backTwist.write(backcwisePart);
+  delay(WAIT);
+  backPinch.write(backOpenMotionBig);
+  delay(WAIT);
+  backTwist.write(backTwistHome);
   delay(WAIT);
   backPinch.write(backClose);
   delay(WAIT);
 } 
 void backPrime()
 {
-  backTwist.write(cCwise);
+  backTwist.write(backcCwise);
   delay(WAIT);
-  backPinch.write(backOpen);
+  backPinch.write(backOpenMotionSmall);
   delay(WAIT);
-  backTwist.write(twistHome);
+  backTwist.write(backcCwisePart);
+  delay(WAIT);
+  frontPinch.write(backOpenMotionBig);
+  delay(WAIT);
+  backTwist.write(backTwistHome);
   delay(WAIT);
   backPinch.write(backClose);
   delay(WAIT);
@@ -359,20 +400,20 @@ void backPrime()
 //the cube so the top is now in the front
 void top2front()
 {
-  frontPinch.write(frontOpen);
-  backPinch.write(backOpen);
+  frontPinch.write(frontOpenStationary);
+  backPinch.write(backOpenStationary);
   delay(WAIT);
-  leftTwist.write(cwise);
-  rightTwist.write(cCwise);
+  leftTwist.write(leftcwise);
+  rightTwist.write(rightcCwise);
   delay(WAIT);
   frontPinch.write(frontClose);
   backPinch.write(backClose);
   delay(WAIT);
-  leftPinch.write(leftOpen);
-  rightPinch.write(rightOpen);
+  leftPinch.write(leftOpenStationary);
+  rightPinch.write(rightOpenStationary);
   delay(WAIT);
-  leftTwist.write(twistHome);
-  rightTwist.write(twistHome+4);
+  leftTwist.write(leftTwistHome);
+  rightTwist.write(rightTwistHome);
   delay(WAIT);
   leftPinch.write(leftClose);
   rightPinch.write(rightClose);
@@ -382,20 +423,20 @@ void top2front()
 //the cube so the bot is now in the front
 void bot2front()
 {
-  frontPinch.write(frontOpen);
-  backPinch.write(backOpen);
+  frontPinch.write(frontOpenStationary);
+  backPinch.write(backOpenStationary);
   delay(WAIT);
-  leftTwist.write(cCwise);
-  rightTwist.write(cwise);
+  leftTwist.write(leftcCwise);
+  rightTwist.write(rightcwise);
   delay(WAIT);
   frontPinch.write(frontClose);
   backPinch.write(backClose);
   delay(WAIT);
-  leftPinch.write(leftOpen);
-  rightPinch.write(rightOpen);
+  leftPinch.write(leftOpenMotionBig);
+  rightPinch.write(rightOpenMotionBig);
   delay(WAIT);
-  leftTwist.write(cwise);
-  rightTwist.write(cCwise);
+  leftTwist.write(leftcwise);
+  rightTwist.write(rightcCwise);
   delay(WAIT);
   leftPinch.write(leftClose);
   rightPinch.write(rightClose);
@@ -406,20 +447,20 @@ void bot2front()
 //this is for mapping the colors
 void left2top()
 {
-  leftPinch.write(leftOpen);
-  rightPinch.write(rightOpen);
+  leftPinch.write(leftOpenStationary);
+  rightPinch.write(rightOpenStationary);
   delay(WAIT);
-  backTwist.write(cCwise);
-  frontTwist.write(cwise);
+  backTwist.write(backcCwise);
+  frontTwist.write(frontcwise);
   delay(WAIT);
   leftPinch.write(leftClose);
   rightPinch.write(rightClose);
   delay(WAIT);
-  backPinch.write(backOpen);
-  frontPinch.write(frontOpen);
+  backPinch.write(backOpenStationary);
+  frontPinch.write(frontOpenStationary);
   delay(WAIT);
-  backTwist.write(cwise);
-  frontTwist.write(cCwise);
+  backTwist.write(backcwise);
+  frontTwist.write(frontcCwise);
   delay(WAIT);
   backPinch.write(backClose);
   frontPinch.write(frontClose);
@@ -430,20 +471,20 @@ void left2top()
 //this is for mapping the colors
 void right2top()
 {
-  leftPinch.write(leftOpen);
-  rightPinch.write(rightOpen);
+  leftPinch.write(leftOpenStationary);
+  rightPinch.write(rightOpenStationary);
   delay(WAIT);
-  backTwist.write(cwise);
-  frontTwist.write(cCwise);
+  backTwist.write(backcwise);
+  frontTwist.write(frontcCwise);
   delay(WAIT);
   leftPinch.write(leftClose);
   rightPinch.write(rightClose);
   delay(WAIT);
-  backPinch.write(backOpen);
-  frontPinch.write(frontOpen);
+  backPinch.write(backOpenMotionBig);
+  frontPinch.write(frontOpenMotionBig);
   delay(WAIT);
-  backTwist.write(cCwise);
-  frontTwist.write(cwise);
+  backTwist.write(backcCwise);
+  frontTwist.write(frontcwise);
   delay(WAIT);
   backPinch.write(backClose);
   frontPinch.write(frontClose);
