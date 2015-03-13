@@ -8,6 +8,7 @@
 
 #include <cstdio>
 #include <time.h>
+#include <fstream>
 #include <string>
 //#include <conio.h>
 using namespace std;
@@ -278,6 +279,7 @@ app.c_str(), app.c_str()
     );
     printf("501 terminating unsuccessfully.\n");
   }
+  system("pause");
   if (x != 0 || y != 0) return -1;
   return 0;
 }

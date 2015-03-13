@@ -2,9 +2,12 @@
 
 #include "solver.h"		// Solver
 
-#include <iostream.h>
+#include <iostream>
+#include <iomanip>
+#include <string>
+#include <cstdlib>
 #include <fstream>
-#include <iomanip.h>
+
 
 Solver::Solver(void)
 	// Phase 1 move mapping tables
@@ -45,58 +48,58 @@ void Solver::InitializeTables(void)
 {
 	// Phase 1 move mapping tables
 
-	cout << "Initializing TwistMoveTable" << endl;
+	//cout << "Initializing TwistMoveTable" << endl;
 	twistMoveTable.Initialize("Twist.mtb");
-	cout << "Size = " << twistMoveTable.SizeOf() << endl;
+	//cout << "Size = " << twistMoveTable.SizeOf_() << endl;
 
-	cout << "Initializing FlipMoveTable" << endl;
+	//cout << "Initializing FlipMoveTable" << endl;
 	flipMoveTable.Initialize("Flip.mtb");
- 	cout << "Size = " << flipMoveTable.SizeOf() << endl;
+ 	//cout << "Size = " << flipMoveTable.SizeOf_() << endl;
 
-	cout << "Initializing ChoiceMoveTable" << endl;
+	//cout << "Initializing ChoiceMoveTable" << endl;
 	choiceMoveTable.Initialize("Choice.mtb");
-	cout << "Size = " << choiceMoveTable.SizeOf() << endl;
+	//cout << "Size = " << choiceMoveTable.SizeOf_() << endl;
 
 	// Phase 2 move mapping tables
 
-	cout << "Initializing CornerPermutationMoveTable" << endl;
+	//cout << "Initializing CornerPermutationMoveTable" << endl;
 	cornerPermutationMoveTable.Initialize("CrnrPerm.mtb");
-	cout << "Size = " << cornerPermutationMoveTable.SizeOf() << endl;
+	//cout << "Size = " << cornerPermutationMoveTable.SizeOf_() << endl;
 
-	cout << "Initializing NonMiddleSliceEdgePermutationMoveTable" << endl;
+	//cout << "Initializing NonMiddleSliceEdgePermutationMoveTable" << endl;
 	nonMiddleSliceEdgePermutationMoveTable.Initialize("EdgePerm.mtb");
-	cout << "Size = " << nonMiddleSliceEdgePermutationMoveTable.SizeOf() << endl;
+	//cout << "Size = " << nonMiddleSliceEdgePermutationMoveTable.SizeOf_() << endl;
 
-	cout << "Initializing MiddleSliceEdgePermutationMoveTable" << endl;
+	//cout << "Initializing MiddleSliceEdgePermutationMoveTable" << endl;
 	middleSliceEdgePermutationMoveTable.Initialize("SlicPerm.mtb");
-	cout << "Size = " << middleSliceEdgePermutationMoveTable.SizeOf() << endl;
+	//cout << "Size = " << middleSliceEdgePermutationMoveTable.SizeOf_() << endl;
 
 	// Phase 1 pruning tables
 	
-	cout << "Initializing TwistAndFlipPruningTable" << endl;
+	//cout << "Initializing TwistAndFlipPruningTable" << endl;
 	TwistAndFlipPruningTable.Initialize("TwstFlip.ptb");
-	cout << "Size = " << TwistAndFlipPruningTable.SizeOf() << endl;
+	//cout << "Size = " << TwistAndFlipPruningTable.SizeOf_() << endl;
 	
-	cout << "Initializing TwistAndChoicePruningTable" << endl;
+	//cout << "Initializing TwistAndChoicePruningTable" << endl;
 	TwistAndChoicePruningTable.Initialize("TwstChce.ptb");
-	cout << "Size = " << TwistAndChoicePruningTable.SizeOf() << endl;
+	//cout << "Size = " << TwistAndChoicePruningTable.SizeOf_() << endl;
 
-	cout << "Initializing FlipAndChoicePruningTable" << endl;
+	//cout << "Initializing FlipAndChoicePruningTable" << endl;
 	FlipAndChoicePruningTable.Initialize("FlipChce.ptb");
-	cout << "Size = " << FlipAndChoicePruningTable.SizeOf() << endl;
+	//cout << "Size = " << FlipAndChoicePruningTable.SizeOf_() << endl;
 
 	// Phase 2 pruning tables
 
 	// Obviously a CornerAndEdgePruningTable doesn't make sense as it's size
 	//   would be extremely large (i.e. 8!*8!)
 
-	cout << "Initializing CornerAndSlicePruningTable" << endl;
+	//cout << "Initializing CornerAndSlicePruningTable" << endl;
 	CornerAndSlicePruningTable.Initialize("CrnrSlic.ptb");
-	cout << "Size = " << CornerAndSlicePruningTable.SizeOf() << endl;
+	//cout << "Size = " << CornerAndSlicePruningTable.SizeOf_() << endl;
 	
-	cout << "Initializing EdgeAndSlicePruningTable" << endl;
+	//cout << "Initializing EdgeAndSlicePruningTable" << endl;
 	EdgeAndSlicePruningTable.Initialize("EdgeSlic.ptb");
-	cout << "Size = " << EdgeAndSlicePruningTable.SizeOf() << endl;
+	//cout << "Size = " << EdgeAndSlicePruningTable.SizeOf_() << endl;
 }
 
 int Solver::Solve(KociembaCube& scrambledCube)
@@ -115,8 +118,8 @@ int Solver::Solve(KociembaCube& scrambledCube)
 
 	do
 	{
-		cout << "threshold(" << iteration
-			 << ") = " << threshold1 << endl;
+		//cout << "threshold(" << iteration
+		//	 << ") = " << threshold1 << endl;
 
 		newThreshold1 = Huge;	// Any cost will be less than this
 
@@ -130,7 +133,7 @@ int Solver::Solve(KociembaCube& scrambledCube)
 		iteration++;
 	} while (result == NOT_FOUND);
 
-	cout << "Phase 1 nodes = " << nodes1 << endl;
+	//cout << "Phase 1 nodes = " << nodes1 << endl;
 	return result;
 }
 
@@ -184,7 +187,7 @@ int Solver::Search1(int twist, int flip, int choice, int depth)
 		if (depth >= minSolutionLength-1)
 			return OPTIMUM_FOUND;
 		
-		for (move = Cube::Move::R; move <= Cube::Move::B; move++)
+		for (move = Cube::R; move <= Cube::B; move++)
 		{
 			if (Disallowed(move, solutionMoves1, depth)) continue;
 				
@@ -201,7 +204,7 @@ int Solver::Search1(int twist, int flip, int choice, int depth)
 				choice2 = choiceMoveTable[choice2][move];
 				nodes1++;
 				// Apply the move
-				if (result = Search1(twist2, flip2, choice2, depth+1))
+				if ((result = Search1(twist2, flip2, choice2, depth+1)))
 						return result;
 			}
 		}
@@ -274,11 +277,9 @@ int Solver::Search2(
 		solutionLength2 = depth;	// Save phase 2 solution length
 		if (solutionLength1 + solutionLength2 < minSolutionLength)
 			minSolutionLength = solutionLength1 + solutionLength2;
-		if (minSolutionLength == 20)
-		{
-			PrintSolutionFile();
-		}
 		PrintSolution();
+		PrintSolutionFile();
+		toArduinoInterf();
 		return FOUND;
 	}
 
@@ -291,7 +292,7 @@ int Solver::Search2(
 		//   length than the current best solution
 		if (solutionLength1 + depth >= minSolutionLength-1) return ABORT;
 
-		for (move = Cube::Move::R; move <= Cube::Move::B; move++)
+		for (move = Cube::R; move <= Cube::B; move++)
 		{
 			if (Disallowed(move, solutionMoves2, depth)) continue;
 
@@ -301,7 +302,7 @@ int Solver::Search2(
 
 			solutionMoves2[depth] = move;
 			powerLimit = 4;
-			if (move != Cube::Move::U && move != Cube::Move::D) powerLimit=2;
+			if (move != Cube::U && move != Cube::D) powerLimit=2;
 
 			for (power = 1; power < powerLimit; power++)
 			{
@@ -316,10 +317,10 @@ int Solver::Search2(
 
 				nodes2++;
 				// Apply the move
-				if (result = Search2(
+				if ((result = Search2(
 						cornerPermutation2,
 						nonMiddleSliceEdgePermutation2,
-						middleSliceEdgePermutation2, depth+1))
+						middleSliceEdgePermutation2, depth+1)))
 						return result;
 			}
 		}
@@ -336,10 +337,10 @@ int Solver::Phase1Cost(int twist, int flip, int choice)
 {
 	// Combining admissible heuristics by taking their maximum
 	//   produces an improved admissible heuristic.
-	int cost = TwistAndFlipPruningTable.GetValue(twist*flipMoveTable.SizeOf()+flip);
-	int cost2 = TwistAndChoicePruningTable.GetValue(twist*choiceMoveTable.SizeOf()+choice);
+	int cost = TwistAndFlipPruningTable.GetValue(twist*flipMoveTable.SizeOf_()+flip);
+	int cost2 = TwistAndChoicePruningTable.GetValue(twist*choiceMoveTable.SizeOf_()+choice);
 	if (cost2 > cost) cost = cost2;
-	cost2 = FlipAndChoicePruningTable.GetValue(flip*choiceMoveTable.SizeOf()+choice);
+	cost2 = FlipAndChoicePruningTable.GetValue(flip*choiceMoveTable.SizeOf_()+choice);
 	if (cost2 > cost) cost = cost2;
 	return cost;
 }
@@ -352,9 +353,9 @@ int Solver::Phase2Cost(
 	// Combining admissible heuristics by taking their maximum
 	//   produces an improved admissible heuristic.
 	int cost = CornerAndSlicePruningTable.GetValue(
-		cornerPermutation*middleSliceEdgePermutationMoveTable.SizeOf()+middleSliceEdgePermutation);
+		cornerPermutation*middleSliceEdgePermutationMoveTable.SizeOf_()+middleSliceEdgePermutation);
 	int cost2 = EdgeAndSlicePruningTable.GetValue(
-		nonMiddleSliceEdgePermutation*middleSliceEdgePermutationMoveTable.SizeOf()+middleSliceEdgePermutation);
+		nonMiddleSliceEdgePermutation*middleSliceEdgePermutationMoveTable.SizeOf_()+middleSliceEdgePermutation);
 	if (cost2 > cost) cost = cost2;
 	return cost;
 }
@@ -369,11 +370,11 @@ int Solver::Disallowed(int move, int* solutionMoves, int depth)
 
 		//   Disallow a move of an opposite face if the current face
 		//     moved is B,L, or D. (BF, LR, DU are same as FB,RL,UD)
-		if ((move == Cube::Move::F) && solutionMoves[depth-1] == Cube::Move::B)
+		if ((move == Cube::F) && solutionMoves[depth-1] == Cube::B)
 			return 1;
-		if ((move == Cube::Move::R) && solutionMoves[depth-1] == Cube::Move::L)
+		if ((move == Cube::R) && solutionMoves[depth-1] == Cube::L)
 			return 1;
-		if ((move == Cube::Move::U) && solutionMoves[depth-1] == Cube::Move::D)
+		if ((move == Cube::U) && solutionMoves[depth-1] == Cube::D)
 			return 1;
 
 		// Disallow 3 or more consecutive moves of opposite faces
@@ -388,34 +389,108 @@ int Solver::Disallowed(int move, int* solutionMoves, int depth)
 void Solver::PrintSolution(void)
 {
 	int i;
+	cout << "OK" << endl;
 	for (i = 0; i < solutionLength1; i++)
 		cout << Cube::NameOfMove(TranslateMove(solutionMoves1[i], solutionPowers1[i], 0))
 		     << " ";
-	cout << ". ";
+	//cout << ". ";
 	for (i = 0; i < solutionLength2; i++)
 		cout << Cube::NameOfMove(TranslateMove(solutionMoves2[i], solutionPowers2[i], 1))
 		     << " ";
-	cout << "(" << solutionLength1 + solutionLength2 << ")" << endl;
+	//cout << "(" << solutionLength1 + solutionLength2 << ")" << endl;
+	cout << endl;
 }
 
 void Solver::PrintSolutionFile(void)
 {
-	ofsteam myfile;
-	myfile.open ("exampleSolution.txt");
+	ofstream myfile;
+	myfile.open("exampleSolution.txt");
 	int i;
 	for (i = 0; i < solutionLength1; i++)
-		myfile << Cube::NameOfMove(TranslateMove(solutionMoves1[i], solutionPowers1[i], 0))
-		     << " ";
+	{	
+		string moveHere = Cube::NameOfMove(TranslateMove(solutionMoves1[i], solutionPowers1[i], 0));
+	}
 	for (i = 0; i < solutionLength2; i++)
-		myfile << Cube::NameOfMove(TranslateMove(solutionMoves2[i], solutionPowers2[i], 1))
-		     << " ";
+	{
+		string moveHere = Cube::NameOfMove(TranslateMove(solutionMoves2[i], solutionPowers2[i], 1));
+	}
+	exit(0);
+}
+
+String^ Solver::arduinoParser(string inp)
+{
+	String^ output;
+	if (inp == "U") output = "a";
+	if (inp == "U'") output = "b";
+	if (inp == "U2") output = "c";
+	if (inp == "D") output = "d";
+	if (inp == "D'") output = "e";
+	if (inp == "D2") output = "f";
+	if (inp == "F") output = "g";
+	if (inp == "F'") output = "h";
+	if (inp == "F2") output = "i";
+	if (inp == "B") output = "j";
+	if (inp == "B'") output = "k";
+	if (inp == "B2") output = "l";
+	if (inp == "L") output = "m";
+	if (inp == "L'") output = "n";
+	if (inp == "L2") output = "o";
+	if (inp == "R") output = "p";
+	if (inp == "R'") output = "q";
+	if (inp == "R2") output = "s";
+	return output;
+}
+
+void Solver::toArduinoInterf(void)
+{
+	string answer;
+	String^ portName;
+	int baudRate = 9600;
+	portName = "COM4";
+	// arduino settings
+	SerialPort^ arduino;
+	arduino = gcnew SerialPort(portName, baudRate);
+	// open port
+	try
+	{
+		arduino->Open();
+
+		int i;
+		for (i = 0; i < solutionLength1; i++)
+		{
+			// Get move
+			answer = Cube::NameOfMove(TranslateMove(solutionMoves1[i], solutionPowers1[i], 0));
+			// Parse to a,b,c,...r
+			arduino->WriteLine(arduinoParser(answer));
+			// Wait for arduino to return 1
+			while (arduino->ReadLine() != "1") {}
+		}
+		for (i = 0; i < solutionLength2; i++)
+		{
+			answer = Cube::NameOfMove(TranslateMove(solutionMoves2[i], solutionPowers2[i], 1));
+			arduino->WriteLine(arduinoParser(answer));
+			while (arduino->ReadLine() != "1") {}
+		}
+		// close port to arduino
+		arduino->Close();
+	}
+	catch (IO::IOException^ e)
+	{
+		Console::WriteLine(e->GetType()->Name + ": Port is not ready");
+	}
+	catch (ArgumentException^ e)
+	{
+		Console::WriteLine(e->GetType()->Name + ": incorrect port name syntax, must start with COM/com");
+	}
+	// end program
+	return;
 }
 
 int Solver::TranslateMove(int move, int power, int phase2)
 {
 	int translatedMove = move;
 
-	if (phase2 && move != Cube::Move::U && move != Cube::Move::D)
+	if (phase2 && move != Cube::U && move != Cube::D)
 		power = 2;
 		
 	if (power == 2)

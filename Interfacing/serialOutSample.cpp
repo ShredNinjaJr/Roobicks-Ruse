@@ -7,7 +7,7 @@
 	I tested, it works.
 */
 
-#include "stdafx.h"
+//#include "stdafx.h"
 
 using namespace System;
 using namespace System::IO::Ports;
