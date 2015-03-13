@@ -37,6 +37,12 @@
 #define GREEN 4
 #define BLUE 5
 
+#define UP 0
+#define DOWN 1
+#define FRONT 2
+#define BACK 3
+#define LEFT 4
+#define RIGHT 5
 using namespace cv;
 using namespace std;
 #define CORNER_SIZE 40
@@ -51,14 +57,15 @@ Mat src; Mat src_HSV, src_modified;	//Stores the image from Video and a HSV conv
 Vec3b Orange, Red, White, Blue, Green, Yellow;
 
 /*Function Prototypes*/
-void getHSV();
-Vec3b printColor(unsigned long H, unsigned long S, unsigned long V);
+void getHSV(int face);
+Vec3b printColor(unsigned long H, unsigned long S, unsigned long V, int face, int x, int y);
 void initializeColors();
 
+char Faces[6][9];
 
 int main(int argc, char** argv)
 {
-	VideoCapture cap(1); // open the default camera
+	VideoCapture cap(0); // open the default camera
 	if (!cap.isOpened())  // check if we succeeded
 		return -1;
 
@@ -71,17 +78,20 @@ int main(int argc, char** argv)
 		/* Create an HSV of the image*/
 		cvtColor(src, src_HSV, CV_BGR2HSV);
 
-		/* Draw rectangles*/
-		for (int i = 0; i < 3; i++)
+		for (int f = 0; f < 6; f++)
 		{
-			for (int j = 0; j < 3; j++)
+			/* Draw rectangles*/
+			for (int i = 0; i < 3; i++)
 			{
-				rectangle(src, Point2f(i*SIZE + X_OFF +SPACE, j*SIZE+ Y_OFF + SPACE), 
-					Point2f((i + 1)*SIZE + X_OFF -SPACE, Y_OFF+ (j + 1)*SIZE - SPACE), 
-					Scalar(0,0,255), 2);
+				for (int j = 0; j < 3; j++)
+				{
+					rectangle(src, Point2f(i*SIZE + X_OFF + SPACE, j*SIZE + Y_OFF + SPACE),
+						Point2f((i + 1)*SIZE + X_OFF - SPACE, Y_OFF + (j + 1)*SIZE - SPACE),
+						Scalar(0, 0, 255), 2);
+				}
 			}
+			getHSV(f);
 		}
-		getHSV();
 		/* Display the video on a screen*/
 		char* source_window = "Source";
 		namedWindow(source_window, CV_WINDOW_AUTOSIZE);
@@ -102,7 +112,7 @@ int main(int argc, char** argv)
 
 
 
-void getHSV()
+void getHSV(int face)
 {
 	/* Gets the HSV Averages of the H, S, and V values of each rectangle in the image*/
 	unsigned long H, S, V;
@@ -136,7 +146,8 @@ void getHSV()
 			//cout << " ";
 			//cout << i << "," << j << endl;
 			// Write the color in the corner
-			Vec3b copy = printColor(H, S, V);
+			Vec3b copy = printColor(H, S, V, face, i, j);
+			//Put the colors into the face
 			for (int x = i*CORNER_SIZE; x < (i + 1)*CORNER_SIZE; x++)
 			{
 				for (int y = j*CORNER_SIZE; y < (j + 1) * CORNER_SIZE; y++)
@@ -153,21 +164,39 @@ void getHSV()
 }
 
 
-Vec3b printColor(unsigned long H, unsigned long S, unsigned long V)
+Vec3b printColor(unsigned long H, unsigned long S, unsigned long V, int face, int x, int y)
 {
 	//cout << "H = " << H << " S =" << S << " V= " << V << endl;
 	if (H > 30 && H < 40)
+	{
+		Faces[face][x + y*3] = 'Y';
 		return Yellow;
+	}
 	else if (H > 20 && H < 30 && S < 70)
+	{
+		Faces[face][x + y * 3] = 'W';
 		return White;
+	}
 	else if (H > 55 && H < 80)
+	{
+		Faces[face][x + y * 3] = 'G';
 		return Green;
+	}
 	else if (H > 95 && H < 125)
+	{
+		Faces[face][x + y * 3] = 'B';
 		return Blue;
+	}
 	else if (H < 3)
+	{
+		Faces[face][x + y * 3] = 'R';
 		return Red;
+	}
 	else if (H >= 3 && H < 10)
+	{
+		Faces[face][x + y * 3] = 'O';
 		return Orange;
+	}
 	else
 		return Vec3b(255, 0, 157);
 
